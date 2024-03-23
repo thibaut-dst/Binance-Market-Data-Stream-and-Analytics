@@ -44,8 +44,6 @@ def process_message(message, url):
     bids = message["data"]["b"]
     asks = message["data"]["a"]
     
-
-    
     # Calculate the spread (best ask - best bid)
     #spread = float(asks[0][0]) - float(bids[0][0])
     
@@ -119,7 +117,10 @@ def start_websocket_thread(socket_url, on_message_callback):
     return ws, thread
 
 def create_trade_report(df_book_data):
-
+    """
+    Generate a CSV report using the collected book and trade data
+    Returns: Dataframe representing the trade report
+    """
     global trade_data
 
     # Filter to process only the trade on the orderbook streaming period 
@@ -172,7 +173,7 @@ if __name__ == "__main__":
         book_futures_ws , book_futures_thread = start_websocket_thread(uri4, lambda ws, message: on_message(ws, message, uri4))
 
 
-        # Wait for threads to finish
+        # Wait for threads to finish when the connection is about to stop
         trade_spot_thread.join()
         trade_futures_thread.join()
         book_spot_thread.join()
@@ -185,9 +186,7 @@ if __name__ == "__main__":
         book_futures_ws.close()
         trade_spot_ws.close()
         trade_futures_ws.close()
-
         print("WebSocket connections closed.")
-
 
 
         df = pd.DataFrame(book_data) # Create DataFrames for spot and futures book data 
