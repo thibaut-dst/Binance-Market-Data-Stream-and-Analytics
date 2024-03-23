@@ -118,9 +118,16 @@ def start_websocket_thread(socket_url, on_message_callback):
     thread.start()
     return ws, thread
 
-def create_trade_report(trade_list):
+def create_trade_report(df_book_data):
 
-    df_trade = pd.DataFrame(trade_list) # Create DataFrames to store all spot and futures trading data        
+    global trade_data
+
+    # Filter to process only the trade on the orderbook streaming period 
+    period_start = df_book_data["timestamp"].iloc[0] 
+    period_end = df_book_data["timestamp"].iloc[-1]
+    filtered_trades = [trade for trade in trade_data if period_start <= trade['timestamp'] <= period_end]    
+
+    df_trade = pd.DataFrame(filtered_trades) # Create DataFrames to store all spot and futures trading data        
     groupedByInstrument = df_trade.groupby("instrument")
 
     # Processing dataframe to get number of trade, volume, average volume, number of quotations, average spread for each level
@@ -186,11 +193,5 @@ if __name__ == "__main__":
         df = pd.DataFrame(book_data) # Create DataFrames for spot and futures book data 
         df.to_csv("collected_data/book_data.csv", sep=',', encoding='utf-8', index=False)
 
-
-        # Filter to process only the trade on the orderbook streaming period 
-        period_start = df["timestamp"].iloc[0] 
-        period_end = df["timestamp"].iloc[-1]
-        filtered_trades = [trade for trade in trade_data if period_start <= trade['timestamp'] <= period_end]
-        
-        trade_report = create_trade_report(filtered_trades)
+        trade_report = create_trade_report(df)
         trade_report.to_csv("collected_data/trade_report.csv", sep=',', encoding='utf-8', index=True)
