@@ -4,6 +4,9 @@ import ssl
 import pandas as pd
 import threading
 
+from config import spot_socket, futures_socket, book_streams, trade_streams
+
+
 def on_message(ws, message, url): 
     """
     This function is called whenever a message is received from the WebSocket that streams book data.
@@ -143,13 +146,6 @@ def create_trade_report(trade_list):
 
 book_data = []
 trade_data = []
-    
-book_streams = "btcusdt@depth/ethusdt@depth"  #stream name for both BTCUSDT and ETHUSDT book
-trade_streams = "btcusdt@trade/ethusdt@trade" #stream name for both BTCUSDT and ETHUSDT trade
-
-spot_socket = "wss://stream.binance.com:9443/stream?streams=" #endpoint for subscribing to spot streams
-futures_socket = "wss://fstream.binance.com/stream?streams=" #endpoint for subscribing to perpetual streams
-
 
 if __name__ == "__main__":
     try:
