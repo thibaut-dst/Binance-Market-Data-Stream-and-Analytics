@@ -23,5 +23,4 @@ Run the main script to start streaming data:
 Wait for the WebSocket connections to collect streaming data.
 Press Ctrl + C to stop the script and close WebSocket connections.
 
-You'll find the collected data and analytics reports in the collected_data directory.
-
+You'll find the collected data and analytics reports in the collected_data directory under "trade_report.csv"

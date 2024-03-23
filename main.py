@@ -2,7 +2,6 @@ import websocket
 import json
 import ssl
 import pandas as pd
-import asyncio
 import threading
 
 def on_message(ws, message, url): 
@@ -11,7 +10,7 @@ def on_message(ws, message, url):
     It parses the message as JSON and processes it using the `process_message` function.
     """
     message_data = json.loads(message)
-    #print("book data from", ws.url)
+    print("book data from", ws.url)
     #print(message_data) 
     process_message(message_data, url)  # Call process_message to handle the message
 
@@ -21,7 +20,7 @@ def on_trade_message(ws, message, url):
     It parses the message as JSON and processes it using the `process_message` function.
     """
     message_data = json.loads(message)
-    #print("trade data from", ws.url)
+    print("trade data from", ws.url)
     #print(message_data)
     process_trade_message(message_data, url)
 
