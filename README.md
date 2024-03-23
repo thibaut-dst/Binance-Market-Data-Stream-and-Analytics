@@ -1,4 +1,4 @@
-# Binance Streaming Data Analysis
+# Binance Streaming - Analytics Report Creation
 
 ### Overview
 This project aims to collect and analyze streaming data from Binance exchange. 
